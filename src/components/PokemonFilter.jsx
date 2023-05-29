@@ -7,11 +7,26 @@ const Input = styled.input`
 	width: 100%;
 	font-size: large;
 	padding: 0.25rem;
+	box-sizing: border-box;
 `;
 
 const PokemonFilter = () => {
-	const { filter, setFilter } = useContext(PokemonContext);
-	return <Input type='text' value={filter} onChange={(e) => setFilter(e.target.value)} />;
+	const {
+		state: { filter },
+		dispatch,
+	} = useContext(PokemonContext);
+	return (
+		<Input
+			type='text'
+			value={filter}
+			onChange={(evt) =>
+				dispatch({
+					type: "SET_FILTER",
+					payload: evt.target.value,
+				})
+			}
+		/>
+	);
 };
 
 export default PokemonFilter;
