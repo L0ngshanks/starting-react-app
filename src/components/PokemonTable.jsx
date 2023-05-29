@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import styled from "@emotion/styled";
 
 import PokemonRow from "./PokemonRow";
-import PokemonContext from "../PokemonContext";
+import { useSelector, useDispatch } from "react-redux";
 
 const TableHeader = styled.th`
 	text-align: left;
@@ -11,10 +11,9 @@ const TableHeader = styled.th`
 `;
 
 const PokemonTable = () => {
-	const {
-		state: { filter, pokemon },
-		dispatch,
-	} = useContext(PokemonContext);
+	const dispatch = useDispatch();
+	const pokemon = useSelector((state) => state.pokemon);
+	const filter = useSelector((state) => state.filter);
 
 	return (
 		<table width={"100%"}>

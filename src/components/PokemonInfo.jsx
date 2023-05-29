@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
 
 import PokemonType from "../PokemonType";
-import PokemonContext from "../PokemonContext";
 
 const InfoWrapper = styled.div`
 	margin-top: 2.25rem;
@@ -15,9 +15,7 @@ const Title = styled.div`
 `;
 
 const PokemonInfo = () => {
-	const {
-		state: { selectedPokemon },
-	} = useContext(PokemonContext);
+	const selectedPokemon = useSelector(({ selectedPokemon }) => selectedPokemon);
 
 	return selectedPokemon ? (
 		<InfoWrapper>
