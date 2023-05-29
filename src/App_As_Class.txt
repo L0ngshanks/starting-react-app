@@ -1,0 +1,75 @@
+class App extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			filter: "",
+			pokemon: [],
+			selectedItem: null,
+		};
+	}
+
+	componentDidMount() {
+		fetch("http://localhost:3000/Pokemon.json")
+			.then((resp) => resp.json())
+			.then((data) =>
+				this.setState({
+					...this.state,
+					pokemon: data,
+				})
+			);
+	}
+
+	render() {
+		return (
+			<Container>
+				<Title>Pokemon Search</Title>
+				<TwoColumnLayout>
+					<div>
+						<Input
+							type='text'
+							value={this.state.filter}
+							onChange={(evt) =>
+								this.setState({
+									...this.state,
+									filter: evt.target.value,
+								})
+							}
+						/>
+						<table width={"100%"}>
+							<thead>
+								<tr>
+									<TableHeader>Name</TableHeader>
+									<TableHeader>Type</TableHeader>
+								</tr>
+							</thead>
+							<tbody>
+								{this.state.pokemon
+									.filter((pokemon) => pokemon.name.english.toLowerCase().includes(this.state.filter.toLowerCase()))
+									.slice(0, 20)
+									.map((pokemon) => {
+										return (
+											<PokemonRow
+												pokemon={pokemon}
+												key={pokemon.id}
+												onSelect={(pokemon) =>
+													this.setState({
+														...this.state,
+														selectedItem: pokemon,
+													})
+												}
+											/>
+										);
+									})}
+							</tbody>
+						</table>
+					</div>
+					{this.state.selectedItem && (
+						<div>
+							<PokemonInfo {...this.state.selectedItem} />
+						</div>
+					)}
+				</TwoColumnLayout>
+			</Container>
+		);
+	}
+}
